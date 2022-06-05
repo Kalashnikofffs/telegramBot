@@ -20,27 +20,30 @@ FIRST, SECOND, THIRD, FOURS, FIFTH, SIX, SEVENTH = range(7)
 ONE, TWO, THREE, FOUR = range(4)
 
 def start(update,context):
-    text = "Подождите, пока загрузится видео с моими комментариями, оно грузится с сервера, поэтому может занять какоето время."
+    text = "Представляю техническое задание."
     keyboard = [
         [
-            InlineKeyboardButton("Начать тестировать бота 👌", callback_data='13'),
+
+            InlineKeyboardButton("Видео с комментариями 👌",
+                                 url="https://youtu.be/Q6DpndLdvXg"),
             InlineKeyboardButton("Посмотреть код бота 👌", url="https://github.com/Kalashnikofffs/telegramBot/blob/master/main.py"),
-        ]
+
+        ],
+        [
+            InlineKeyboardButton("Начать тестировать бота 👌", callback_data='13'),
+        ],
     ]
     reply_markup = InlineKeyboardMarkup(keyboard, resize_keyboard=True)
-    context.bot.send_video(chat_id=update.effective_chat.id, caption=text, video='venv/pic/video_2022-06-05_03-37-31.mp4')
-    context.bot.send_message(chat_id=update.effective_chat.id,text=text,reply_markup=reply_markup)
+    context.bot.send_message(chat_id=update.effective_chat.id, text=text, reply_markup=reply_markup)
 
 
 
-def start_over(update, _):
-    # Получаем пользователя, который запустил команду `/start`
-    user = update.message.from_user
-    logger.info("Пользователь %s начал разговор", user.name)
-    # Создаем `InlineKeyboard`, где каждая кнопка имеет
-    # отображаемый текст и строку `callback_data`
-    # Клавиатура - это список строк кнопок, где каждая строка,
-    # в свою очередь, является списком `[[...]]`
+
+
+
+def start_over(update, context):
+
+
     keyboard = [
         [
             InlineKeyboardButton("На Ты 👌", callback_data='1'),
@@ -49,7 +52,8 @@ def start_over(update, _):
     ]
 
     reply_markup = InlineKeyboardMarkup(keyboard, resize_keyboard=True)
-    update.message.reply_text('Как вам будет комфортнее общаться: на Ты или на Вы?', reply_markup=reply_markup)
+
+    context.bot.send_message(chat_id=update.effective_chat.id, text='Как вам будет комфортнее общаться: на Ты или на Вы?',reply_markup=reply_markup)
 
     return FIRST
 
@@ -342,7 +346,7 @@ if __name__ == '__main__':
                         level=logging.INFO)
 
     conv_handler = ConversationHandler(
-        entry_points=[CommandHandler('start', start)],
+        entry_points=[CallbackQueryHandler(start_over, pattern='^' + '13' + '$')],
         states={  # словарь состояний разговора, возвращаемых callback функциями
             FIRST: [
                 CallbackQueryHandler(naTiiliNaVI, pattern='^' + '1' + '$'),
@@ -380,7 +384,7 @@ if __name__ == '__main__':
         fallbacks=[CommandHandler('start', start)],
     )
     dispatcher.add_handler(conv_handler)
-    dispatcher.add_handler(CallbackQueryHandler(start_over, pattern='^' + '13' + '$'))
+    dispatcher.add_handler(CommandHandler('start', start))
 
     updater.start_polling()
 
