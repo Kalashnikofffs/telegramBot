@@ -20,15 +20,17 @@ FIRST, SECOND, THIRD, FOURS, FIFTH, SIX, SEVENTH = range(7)
 ONE, TWO, THREE, FOUR = range(4)
 
 def start(update,context):
-    text = "Подождите, пока загрузится видео с моими комментариями, оно грузиться с сервера, поэтому может занять какоето время."
+    text = "Подождите, пока загрузится видео с моими комментариями, оно грузится с сервера, поэтому может занять какоето время."
     keyboard = [
         [
             InlineKeyboardButton("Начать тестировать бота 👌", callback_data='13'),
+            InlineKeyboardButton("Посмотреть код бота 👌", url="https://github.com/Kalashnikofffs/telegramBot/blob/master/main.py"),
         ]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard, resize_keyboard=True)
     context.bot.send_video(chat_id=update.effective_chat.id, caption=text, video='venv/pic/video_2022-06-05_03-37-31.mp4')
-    context.bot.send_message(chat_id=update.effective_chat.id,text=text)
+    context.bot.send_message(chat_id=update.effective_chat.id,text=text,reply_markup=reply_markup)
+
 
 
 def start_over(update, _):
