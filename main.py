@@ -196,6 +196,8 @@ def z2(update, context):
     text = 'Раздел в разработке'
     context.bot.send_message(update.effective_chat.id, text=text)
 
+    return FIRST
+
 
 def z3(update, context):
     query = update.callback_query
