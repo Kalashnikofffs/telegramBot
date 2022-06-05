@@ -42,7 +42,8 @@ def start(update,context):
 
 
 def start_over(update, context):
-
+    query = update.callback_query
+    query.answer()
 
     keyboard = [
         [
@@ -53,7 +54,7 @@ def start_over(update, context):
 
     reply_markup = InlineKeyboardMarkup(keyboard, resize_keyboard=True)
 
-    context.bot.send_message(chat_id=update.effective_chat.id, text='Как вам будет комфортнее общаться: на Ты или на Вы?',reply_markup=reply_markup)
+    query.edit_message_text( text='Как вам будет комфортнее общаться: на Ты или на Вы?',reply_markup=reply_markup)
 
     return FIRST
 
